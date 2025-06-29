@@ -1,32 +1,33 @@
 package com.rafaelli.productcatalogapi.controller;
 
+import com.rafaelli.productcatalogapi.dto.ProductDTO;
 import com.rafaelli.productcatalogapi.entity.Product;
+import com.rafaelli.productcatalogapi.service.ProductService;
 import jakarta.annotation.PostConstruct;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
-    @PostConstruct
-    public void init(){
-        System.out.println(">>> ProductController started");
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
-    public Product getAllProducts() {
-        Product product = new Product();
-        product.setId(1);
-        product.setName("Product 1");
-        product.setDescription("Product 1");
-        product.setPrice(new BigDecimal("2.22"));
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
 
-        return product;
+    @PostMapping
+    public Product createProduct(@RequestBody ProductDTO productDTO) {
+        return productService.createProduct(productDTO);
     }
 }
 
