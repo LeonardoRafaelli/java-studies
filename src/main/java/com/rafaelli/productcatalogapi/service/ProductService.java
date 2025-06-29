@@ -3,13 +3,11 @@ package com.rafaelli.productcatalogapi.service;
 import com.rafaelli.productcatalogapi.dto.ProductDTO;
 import com.rafaelli.productcatalogapi.entity.Product;
 import com.rafaelli.productcatalogapi.repository.ProductRepository;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.beans.BeanProperty;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -20,7 +18,7 @@ public class ProductService {
         this.productRepo = productRepo;
     }
 
-    public List<Product> getAllProducts () {
+    public List<Product> getAllProducts() {
         return productRepo.findAll();
     }
 
@@ -29,5 +27,16 @@ public class ProductService {
         BeanUtils.copyProperties(productDTO, product);
 
         return productRepo.save(product);
+    }
+
+    public Product deleteProduct(int id) {
+        Optional<Product> optionalProduct = productRepo.findById(id);
+
+        if (optionalProduct.isEmpty()) {
+            throw new RuntimeException("Product with id " + id + " not found");
+        }
+        Product deletedProduct = optionalProduct.get();
+        productRepo.delete(deletedProduct);
+        return deletedProduct;
     }
 }

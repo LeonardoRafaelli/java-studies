@@ -4,6 +4,7 @@ import com.rafaelli.productcatalogapi.dto.ProductDTO;
 import com.rafaelli.productcatalogapi.entity.Product;
 import com.rafaelli.productcatalogapi.service.ProductService;
 import jakarta.annotation.PostConstruct;
+import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -28,6 +29,11 @@ public class ProductController {
     @PostMapping
     public Product createProduct(@RequestBody ProductDTO productDTO) {
         return productService.createProduct(productDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public Product deleteProduct(@PathVariable int id) {
+        return productService.deleteProduct(id);
     }
 }
 
