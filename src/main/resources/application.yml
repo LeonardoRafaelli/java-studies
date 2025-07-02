@@ -5,6 +5,10 @@ spring:
     url: 'jdbc:postgresql://localhost:5432/catalog'
     username: postgres
     password: admin
+  security:
+    user:
+      name: admin
+      password: admin
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,4 +16,3 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
